@@ -1,0 +1,28 @@
+- name: install required software
+  apt: name={{ item }} state=present
+  become: true
+  with_items:
+    - build-essential
+    - python-dev
+    - libmysqlclient-dev
+    - python3-mysqldb
+    - python-pip
+
+- name: install mysql server
+  apt:
+    name: mysql-server
+    state: present
+
+- name: restart mysql server
+  systemd:
+    name: mysql
+    state: restarted
+    enabled: yes
+
+- name: check mysql server running on port 3306
+  wait_for: 
+    host: 0.0.0.0
+    port: 3306
+    delay:  10
+    state: drained
+

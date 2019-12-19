@@ -1,0 +1,15 @@
+- name: install php and other packages 
+  apt: 
+    name: "{{ item }}"
+    state: latest
+  with_items: 
+    - php
+    - php-cli
+    - php-common
+    - php-xml
+    - php-mysql  
+    
+- name: restart apache2 server 
+  systemd: 
+    name: apache2
+    state: restarted

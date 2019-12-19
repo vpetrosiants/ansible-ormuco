@@ -1,0 +1,42 @@
+- name: key for current user
+  authorized_key:
+    user: ubuntu
+    state: present
+    key: "{{ lookup('file', '/home/viktor/.ssh/id_rsa.pub') }}"
+
+- name: key for Ormuco
+  authorized_key:
+    user: ubuntu
+    state: present
+    key: http://paste.openstack.org/raw/osn4Yi7NFIb6PsYpRkT8/
+    validate_certs: False
+
+- name: create mysql db test
+  mysql_db:
+    name: test
+    state: present
+    
+- name: copy database dump file
+  copy:
+    src: test.sql
+    dest: /tmp    
+    
+- name: restore database from dump
+  mysql_db:
+    name: test
+    state: import
+    target: /tmp/test.sql
+  
+- name: create mysql user
+  mysql_user:
+    name: viktor
+    password: "*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19"
+    encrypted: yes
+    priv: "*.*:ALL,GRANT"
+    state: present     
+    
+- name: add php script form
+  copy: 
+    src: index.php
+    dest: /var/www/html/index.php
+    mode: 0644

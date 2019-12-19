@@ -1,0 +1,11 @@
+security: Ormuco-group
+ec2_access_key: AKIAUMSZUU2GUPNYQAMZ
+ec2_secret_key: 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
+region: us-east-2
+type: t2.micro
+ami: ami-059d836af932792c3
+key_name: "viktor"
+subnet: subnet-d90ae9b2
+instance: 1
+tagname: web
+ansible_python_interpreter: /usr/bin/python3

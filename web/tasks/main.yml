@@ -1,0 +1,24 @@
+- name: install apache server 
+  apt: 
+    name: apache2
+    state: present
+    update_cache: yes
+    
+- name:  enable AllowOverride all in config apache
+  replace: 
+    path: /etc/apache2/apache2.conf 
+    regexp: "AllowOverride None"
+    replace: "AllowOverride All"
+  
+- name: restart apache server
+  systemd: 
+    name: apache2
+    state: restarted
+    enabled: yes
+
+- name: remove default index file
+  file:
+    path: /var/www/html/index.html
+    state: absent
+    
+  
